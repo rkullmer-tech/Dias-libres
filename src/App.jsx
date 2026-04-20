@@ -620,7 +620,7 @@ export default function App() {
           <div className="fade">
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-start",marginBottom:22}}>
               <PTitle title="GESTIÓN DE USUARIOS" sub="Editar nombre · Cambiar clave · Reasignar campo · Cambiar rol de ordeña · Agregar trabajador" inline/>
-              <button onClick={()=>setForm({modo:"nuevo",campoId:"",nombre:"",pass:"",orden:null,activo:true})} style={{...S.bp,background:"linear-gradient(135deg,#059669,#047857)"}} onClick={()=>setModal("editUser")}>+ Agregar Trabajador</button>
+              <button onClick={()=>{setForm({modo:"nuevo",campoId:"",nombre:"",pass:"",orden:null,activo:true});setModal("editUser");}} style={{...S.bp,background:"linear-gradient(135deg,#059669,#047857)"}}>+ Agregar Trabajador</button>
             </div>
             {campos.map(c=>{
               const tw=users.filter(u=>u.campoId===c.id);
