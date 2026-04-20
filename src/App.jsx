@@ -107,10 +107,54 @@ const CSS=`
   @keyframes toastIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
   @keyframes carga{0%{transform:translateX(-100%)}100%{transform:translateX(300%)}}
   .fade{animation:fadeUp .3s ease}.trh:hover{background:#111827!important}
+
+  /* ── MÓVIL ── */
   @media(max-width:768px){
-    .sidebar-desktop{display:none!important}
-    .main-content{margin-left:0!important;padding:16px!important}
+    .desk-only{display:none!important}
+    .main-wrap{margin-left:0!important;padding:16px 14px 90px!important;width:100%!important}
+    .mob-nav{display:flex!important}
+    .login-wrap{width:94vw!important;max-width:420px}
+    .modal-inner{width:96vw!important;max-width:460px;padding:20px 16px!important;border-radius:16px!important}
+    table{font-size:11px}
+    .hide-mob{display:none!important}
+    .mob-card{margin-bottom:10px;border-radius:14px!important}
+    .mob-grid-2{grid-template-columns:1fr!important}
+    .mob-grid-4{grid-template-columns:repeat(2,1fr)!important}
+    h1{font-size:20px!important}
+    .mob-btn{min-height:44px;font-size:14px!important;padding:12px 18px!important}
+    .mob-fab{
+      position:fixed;bottom:80px;right:16px;z-index:90;
+      width:56px;height:56px;border-radius:28px;
+      background:linear-gradient(135deg,#0ea5e9,#10b981);
+      border:none;color:#fff;font-size:28px;
+      display:flex;align-items:center;justify-content:center;
+      box-shadow:0 4px 20px rgba(14,165,233,.4);cursor:pointer;
+    }
+    .mob-section-title{font-size:10px!important;padding:10px 14px 6px!important}
+    .mob-user-card{padding:14px!important}
+    .mob-stat{padding:12px!important}
+    input,select{font-size:16px!important;padding:12px!important}
   }
+  @media(min-width:769px){
+    .mob-nav{display:none!important}
+    .mob-fab{display:none!important}
+  }
+  .mob-nav{
+    position:fixed;bottom:0;left:0;right:0;
+    background:#090d16;border-top:1px solid #1c2a3a;
+    z-index:100;padding:8px 0 env(safe-area-inset-bottom,8px);
+    justify-content:space-around;align-items:center;
+  }
+  .mob-nav-btn{
+    display:flex;flex-direction:column;align-items:center;gap:3px;
+    background:none;border:none;cursor:pointer;padding:4px 6px;
+    font-family:'Syne',sans-serif;font-size:9px;font-weight:700;
+    color:#4b5563;min-width:50px;transition:all .15s;border-radius:10px;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .mob-nav-btn.active{color:#0ea5e9;background:#0ea5e918}
+  .mob-nav-btn .icon{font-size:20px;line-height:1}
+  .mob-nav-btn:active{transform:scale(.92)}
 `;
 
 // ─── ESTILOS ──────────────────────────────────────────────────────────────────
@@ -142,7 +186,7 @@ function Badge({estado,cod,sm}){
   return <div><span style={{background:m.bg,color:m.c,border:`1px solid ${m.b}`,padding:sm?"1px 7px":"3px 10px",borderRadius:20,fontSize:sm?8:10,fontWeight:700}}>{estado}</span>{cod&&!sm&&<div style={{fontSize:8,color:"#fb923c",marginTop:2}}>🔒{cod}</div>}</div>;
 }
 function PTitle({title,sub,inline}){return <div style={{marginBottom:inline?0:24}}><h1 style={{fontSize:24,fontWeight:800,color:"#f9fafb",letterSpacing:-0.5}}>{title}</h1><p style={{color:"#374151",fontSize:11,marginTop:3}}>{sub}</p></div>;}
-function Modal({children,onClose}){return <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.75)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:300}}><div onClick={e=>e.stopPropagation()} style={{background:"#0d1117",border:"1px solid #1c2a3a",borderRadius:20,padding:"24px 28px",width:460,maxWidth:"95vw",animation:"slideUp .25s ease"}}>{children}</div></div>;}
+function Modal({children,onClose}){return <div onClick={onClose} style={{position:"fixed",inset:0,background:"rgba(0,0,0,.75)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:300}}><div onClick={e=>e.stopPropagation()} className="modal-inner" style={{background:"#0d1117",border:"1px solid #1c2a3a",borderRadius:20,padding:"24px 28px",width:460,maxWidth:"95vw",animation:"slideUp .25s ease"}}>{children}</div></div>;}
 function RolTag({orden}){
   if(!orden) return null;
   const m={1:{c:"#fbbf24",l:"Titular 1"},2:{c:"#fbbf24",l:"Titular 2"},3:{c:"#60b4ff",l:"Reemplazante"}}[orden];
@@ -406,7 +450,7 @@ export default function App() {
   if(!session) return (
     <div style={{...S.page,alignItems:"center",justifyContent:"center"}}>
       <style>{CSS}</style>
-      <div style={{width:380,animation:"fadeUp .4s ease"}}>
+      <div className="login-wrap" style={{width:380,animation:"fadeUp .4s ease"}}>
         <div style={{textAlign:"center",marginBottom:32}}>
           <div style={{fontSize:28,fontWeight:800,color:"#f9fafb",letterSpacing:1,lineHeight:1.2}}>DIAS CAMPO VERDE</div>
           <div style={{width:50,height:3,background:"linear-gradient(90deg,#0ea5e9,#10b981)",margin:"14px auto 0",borderRadius:2}}/>
@@ -436,7 +480,7 @@ export default function App() {
             />
           </div>
           {lerr&&<div style={{color:"#f87171",fontSize:12,marginBottom:12,textAlign:"center",background:"#3a1010",border:"1px solid #6a2020",borderRadius:8,padding:"8px"}}>{lerr}</div>}
-          <button onClick={doLogin} style={S.bf}>Ingresar →</button>
+          <button onClick={doLogin} style={{...S.bf,minHeight:50,fontSize:16}} className="mob-btn">Ingresar →</button>
         </div>
       </div>
     </div>
@@ -451,7 +495,7 @@ export default function App() {
       <style>{CSS}</style>
 
       {/* SIDEBAR */}
-      <aside style={S.side}>
+      <aside className="desk-only" style={S.side}>
         <div style={{padding:"20px 14px 14px",borderBottom:"1px solid #161f2e"}}>
           <div style={{fontSize:9,letterSpacing:4,color:"#374151",fontWeight:700}}>SISTEMA</div>
           <div style={{fontSize:16,fontWeight:800,color:"#f9fafb",letterSpacing:0}}>DIAS CAMPO VERDE</div>
@@ -499,7 +543,7 @@ export default function App() {
       </aside>
 
       {/* MAIN */}
-      <main style={S.main}>
+      <main className="main-wrap" style={S.main}>
 
         {/* OVERVIEW */}
         {tab==="overview"&&esM&&(
@@ -1454,9 +1498,41 @@ export default function App() {
         </Modal>
       )}
 
+      {/* ── BARRA NAVEGACIÓN MÓVIL ── */}
+      {session&&(
+        <>
+          {/* FAB reservar para trabajadores */}
+          {!esM&&(
+            <button className="mob-fab" onClick={()=>{setForm({});setModal("nueva");}}>+</button>
+          )}
+          <nav className="mob-nav">
+            {navItems.slice(0,4).map(n=>(
+              <button key={n.id} className={`mob-nav-btn${tab===n.id?" active":""}`} onClick={()=>setTab(n.id)} style={{position:"relative"}}>
+                <span className="icon">{n.icon}</span>
+                <span>{n.label.split(" ")[0]}</span>
+                {n.badge>0&&<span style={{background:"#f59e0b",color:"#000",fontSize:8,fontWeight:800,borderRadius:20,padding:"1px 5px",position:"absolute",top:0,right:4}}>{n.badge}</span>}
+              </button>
+            ))}
+            {navItems.length>4&&(
+              <button className={`mob-nav-btn${[...navItems.slice(4)].some(n=>n.id===tab)?" active":""}`} onClick={()=>{
+                const next=navItems.slice(4).find(n=>n.id!==tab)||navItems[4];
+                setTab(next.id);
+              }} style={{position:"relative"}}>
+                <span className="icon">⋯</span>
+                <span>Más</span>
+              </button>
+            )}
+            <button className="mob-nav-btn" onClick={()=>setSession(null)}>
+              <span className="icon">⏻</span>
+              <span>Salir</span>
+            </button>
+          </nav>
+        </>
+      )}
+
       {/* TOAST */}
       {toast&&(
-        <div style={{position:"fixed",bottom:22,right:22,zIndex:9999,background:toast.tipo==="ok"?"#0d3320":toast.tipo==="warn"?"#2a1a00":"#3a1010",border:`1px solid ${toast.tipo==="ok"?"#1a6640":toast.tipo==="warn"?"#5a3800":"#6a2020"}`,color:toast.tipo==="ok"?"#4ade80":toast.tipo==="warn"?"#fb923c":"#f87171",padding:"11px 18px",borderRadius:11,fontSize:13,fontWeight:700,animation:"toastIn .3s ease",maxWidth:320,boxShadow:"0 8px 28px rgba(0,0,0,.6)"}}>
+        <div style={{position:"fixed",bottom:"calc(env(safe-area-inset-bottom, 0px) + 80px)",right:14,left:14,zIndex:9999,textAlign:"center",background:toast.tipo==="ok"?"#0d3320":toast.tipo==="warn"?"#2a1a00":"#3a1010",border:`1px solid ${toast.tipo==="ok"?"#1a6640":toast.tipo==="warn"?"#5a3800":"#6a2020"}`,color:toast.tipo==="ok"?"#4ade80":toast.tipo==="warn"?"#fb923c":"#f87171",padding:"11px 18px",borderRadius:11,fontSize:13,fontWeight:700,animation:"toastIn .3s ease",maxWidth:320,boxShadow:"0 8px 28px rgba(0,0,0,.6)"}}>
           {toast.tipo==="ok"?"✓ ":toast.tipo==="warn"?"⚠ ":"✗ "}{toast.msg}
         </div>
       )}
